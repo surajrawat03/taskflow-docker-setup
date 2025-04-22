@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  # Apache + PHP Service (Laravel App)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: taskflow_app
+    volumes:
+      - D:\taskflow:/var/www/html
+      - vendor:/var/www/html/vendor
+    ports:
+      - "8081:80"
+    networks:
+      - taskflow_network
+    depends_on:
+      - db
+
+  # MySQL Service
+  db:
+    image: mysql:8.0
+    container_name: taskflow_db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    networks:
+      - taskflow_network
+
+  # phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: taskflow_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8082:80"
+    networks:
+      - taskflow_network
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  vendor:
+
+networks:
+  taskflow_network:
+    driver: bridge
