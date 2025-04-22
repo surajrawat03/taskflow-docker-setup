@@ -20,3 +20,9 @@ This repository contains the Docker setup for running the **TaskFlow** Laravel a
 
    ```yaml
    - D:\taskflow:/var/www/html
+
+3. **Update the Volume Path**
+
+   From the root of this repo, copy the `.env.example` file and named it `.env`
+   Then update the credentials inside .env if necessary.
+
