@@ -20,6 +20,16 @@ COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.con
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Install Node.js (Option 1)
+COPY --from=node:16 /usr/local/bin/ /usr/local/bin/
+COPY --from=node:16 /usr/local/lib/ /usr/local/lib/
+COPY --from=node:16 /usr/local/include/ /usr/local/include/
+COPY --from=node:16 /usr/local/share/ /usr/local/share/
+
+
+# Ensure npm is executable
+# RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+
 # Configure OPcache for performance
 RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini \
     && echo "opcache.memory_consumption=128" >> /usr/local/etc/php/conf.d/opcache.ini \

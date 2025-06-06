@@ -19,8 +19,8 @@ echo "Generating Laravel application key..."
 docker exec -it taskflow_app php artisan key:generate
 
 # Run database migrations
-echo "Running database migrations..."
-docker exec -it taskflow_app php artisan migrate
+# echo "Running database migrations..."
+# docker exec -it taskflow_app php artisan migrate
 
 echo "Setup complete!"
 echo "Access Laravel at: http://localhost:8081"
